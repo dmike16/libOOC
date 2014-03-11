@@ -8,12 +8,14 @@ TARGET = libooc
 TEMPLATE = lib
 CONFIG += staticlib
 
+QMAKE_CFLAGS_DEBUG += -pedantic -ansi -std=gnu99
+INCLUDEPATH = ./include
 SOURCES += \
     Object.c
 
 HEADERS += \
-    Object.r \
-    Object.h
+    include/Object.r \
+    include/Object.h
 unix:!symbian {
     maemo5 {
         target.path = /opt/usr/lib
