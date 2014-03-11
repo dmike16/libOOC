@@ -8,9 +8,12 @@ TARGET = libooc
 TEMPLATE = lib
 CONFIG += staticlib
 
-SOURCES +=
+SOURCES += \
+    Object.c
 
-HEADERS +=
+HEADERS += \
+    Object.r \
+    Object.h
 unix:!symbian {
     maemo5 {
         target.path = /opt/usr/lib
