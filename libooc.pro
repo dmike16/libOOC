@@ -11,7 +11,7 @@ CONFIG += staticlib
 QMAKE_CFLAGS_DEBUG += -pedantic -ansi -std=gnu99
 INCLUDEPATH = ./include
 SOURCES += \
-    Object.c
+    lib/Object/Object.c
 
 HEADERS += \
     include/Object.r \
