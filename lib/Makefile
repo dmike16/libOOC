@@ -1,3 +1,3 @@
 lib-y	+= built-in.o
-obj-y	+= Object/
+obj-y	+= Object/ Node/
 clean-files := *.o *~ *.d
