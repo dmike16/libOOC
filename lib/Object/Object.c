@@ -57,6 +57,12 @@ Object_delete(void *_self){
 }
 
 static void
+Object_reclaim(const void *_self,Method how){
+  cast(Object,_self);
+  return;
+}
+
+static void
 *Class_dtor (void *_self)
 {
   struct __Class *self = _self;
@@ -163,6 +169,13 @@ static void
           self->new.method = method;
           continue;
         }
+      if(selector == (Method) reclaim){
+          if(tag)
+            self->reclaim.tag = tag;
+          self->reclaim.selector = selector;
+          self->reclaim.method = method;
+          continue;
+        }
     }
 
   va_end(ap);
@@ -178,7 +191,8 @@ static const struct __Class object []={
   {"", (Method) 0, (Method)Object_dtor},
   {"puto", (Method) puto, (Method)Object_puto},
    {"delete", (Method) delete, (Method) Object_delete},
-   {"", (Method) 0, (Method) Object_new}
+   {"", (Method) 0, (Method) Object_new},
+   {"reclaim", (Method) 0, (Method) Object_reclaim}
   },
   {{MAGIC,object+1},
    "Class",object,sizeof(struct __Class),
@@ -186,7 +200,8 @@ static const struct __Class object []={
    {"", (Method) 0, (Method) Class_dtor},
    {"puto", (Method) puto, (Method) Object_puto},
    {"delete", (Method) delete, (Method)Object_delete},
-   {"", (Method) 0, (Method)Object_new}
+   {"", (Method) 0, (Method)Object_new},
+   {"reclaim", (Method) 0, (Method) Object_reclaim}
   }
 };
 
@@ -228,6 +243,15 @@ struct __Object
 }
 
 void
+reclaim (const void *_self, Method how)
+{
+  struct __Class *self = cast(Class,classOf(_self));
+
+  assert(self->reclaim.method);
+  ((reclM) self->reclaim.method)(_self,how);
+}
+
+void
 *super_new(const void *_class, const void *_self, va_list *app){
   const struct __Class *superclass = super(_class);
 
@@ -236,11 +260,19 @@ void
 }
 
 void
-*super_delete(const void *_class, void *_self){
+super_delete(const void *_class, void *_self){
   const struct __Class *superclass = super(_class);
 
   assert(superclass->delete.method);
-  return ((dtoR) superclass->delete.method)(_self);
+  ((dtoR) superclass->delete.method)(_self);
+}
+
+void
+super_reclaim(const void *_class, const void *_self, Method how){
+  const struct __Class *superclass = super(_class);
+
+  assert(superclass->delete.method);
+  ((reclM) superclass->reclaim.method)(_self,how);
 }
 
 int 

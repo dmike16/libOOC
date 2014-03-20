@@ -11,11 +11,14 @@ CONFIG += staticlib
 QMAKE_CFLAGS_DEBUG += -pedantic -ansi -std=gnu99
 INCLUDEPATH = ./include
 SOURCES += \
-    lib/Object/Object.c
+    lib/Object/Object.c \
+    lib/Node/node.c
 
 HEADERS += \
     include/Object.r \
-    include/Object.h
+    include/Object.h \
+    include/node.r \
+    include/node.h
 unix:!symbian {
     maemo5 {
         target.path = /opt/usr/lib
