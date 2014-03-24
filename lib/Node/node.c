@@ -54,6 +54,7 @@ const void *_Node;
 const void
 *__node(){
   return new(Class,"Node",Object,sizeof(struct __Node),
+		  	 delete,"delete",Node_delete,
              new,"",Node_new,
              reclaim,"reclaim",Node_reclaim,
              (void*)0);
