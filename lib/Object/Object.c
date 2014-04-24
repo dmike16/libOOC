@@ -10,7 +10,7 @@
 #include <string.h>
 #include <assert.h>
 #include <malloc.h>
-#include "Object.r"
+#include "Object.hxx"
 #include "Object.h"
 
 #define MAGIC 0x0effaced

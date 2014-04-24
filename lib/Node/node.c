@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdarg.h>
 #include <assert.h>
-#include "node.r"
+#include "node.hxx"
 #include "node.h"
 
 static void *nodes;
